@@ -1,0 +1,64 @@
+var _user$project$Main$isPalindrome = function (word) {
+	return _elm_lang$core$Native_Utils.eq(
+		_elm_lang$core$String$reverse(word),
+		word);
+};
+var _user$project$Main$update = F2(
+	function (message, model) {
+		var _p0 = message;
+		var _p1 = _p0._0;
+		return _elm_lang$core$Native_Utils.update(
+			model,
+			{
+				content: _p1,
+				isPalindrome: _user$project$Main$isPalindrome(_p1)
+			});
+	});
+var _user$project$Main$Model = F2(
+	function (a, b) {
+		return {content: a, isPalindrome: b};
+	});
+var _user$project$Main$model = A2(_user$project$Main$Model, '', false);
+var _user$project$Main$Change = function (a) {
+	return {ctor: 'Change', _0: a};
+};
+var _user$project$Main$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		_elm_lang$core$Native_List.fromArray(
+			[]),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				A2(
+				_elm_lang$html$Html$input,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Attributes$placeholder('Text to reverse'),
+						_elm_lang$html$Html_Events$onInput(_user$project$Main$Change)
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[])),
+				A2(
+				_elm_lang$html$Html$div,
+				_elm_lang$core$Native_List.fromArray(
+					[]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text(
+						_elm_lang$core$String$reverse(model.content))
+					])),
+				A2(
+				_elm_lang$html$Html$div,
+				_elm_lang$core$Native_List.fromArray(
+					[]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text(
+						_elm_lang$core$Native_Utils.eq(model.content, '') ? '' : (model.isPalindrome ? 'It\'s a palindome!! :)' : 'Not a palindrome. :('))
+					]))
+			]));
+};
+var _user$project$Main$main = {
+	main: _elm_lang$html$Html_App$beginnerProgram(
+		{model: _user$project$Main$model, update: _user$project$Main$update, view: _user$project$Main$view})
+};
