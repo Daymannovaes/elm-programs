@@ -1,27 +1,60 @@
-var _user$project$Main$isPalindrome = function (word) {
-	return _elm_lang$core$Native_Utils.eq(
-		_elm_lang$core$String$reverse(word),
-		word);
+var _user$project$Main$subscriptions = function (model) {
+	return _elm_lang$core$Platform_Sub$none;
+};
+var _user$project$Main$gifDecoder = A2(
+	_elm_lang$core$Json_Decode$at,
+	_elm_lang$core$Native_List.fromArray(
+		['data', 'image_url']),
+	_elm_lang$core$Json_Decode$string);
+var _user$project$Main$gifUrl = function (topic) {
+	return A2(_elm_lang$core$Basics_ops['++'], 'https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=', topic);
+};
+var _user$project$Main$Model = F2(
+	function (a, b) {
+		return {topic: a, url: b};
+	});
+var _user$project$Main$init = {
+	ctor: '_Tuple2',
+	_0: A2(_user$project$Main$Model, 'cats', 'waiting.gif'),
+	_1: _elm_lang$core$Platform_Cmd$none
+};
+var _user$project$Main$FetchFail = function (a) {
+	return {ctor: 'FetchFail', _0: a};
+};
+var _user$project$Main$FetchSuccess = function (a) {
+	return {ctor: 'FetchSuccess', _0: a};
+};
+var _user$project$Main$getRandomGif = function (topic) {
+	return A3(
+		_elm_lang$core$Task$perform,
+		_user$project$Main$FetchFail,
+		_user$project$Main$FetchSuccess,
+		A2(
+			_evancz$elm_http$Http$get,
+			_user$project$Main$gifDecoder,
+			_user$project$Main$gifUrl(topic)));
 };
 var _user$project$Main$update = F2(
 	function (message, model) {
 		var _p0 = message;
-		var _p1 = _p0._0;
-		return _elm_lang$core$Native_Utils.update(
-			model,
-			{
-				content: _p1,
-				isPalindrome: _user$project$Main$isPalindrome(_p1)
-			});
+		switch (_p0.ctor) {
+			case 'LoadGif':
+				return {
+					ctor: '_Tuple2',
+					_0: model,
+					_1: _user$project$Main$getRandomGif(model.topic)
+				};
+			case 'FetchSuccess':
+				return {
+					ctor: '_Tuple2',
+					_0: A2(_user$project$Main$Model, model.topic, _p0._0),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			default:
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+		}
 	});
-var _user$project$Main$Model = F2(
-	function (a, b) {
-		return {content: a, isPalindrome: b};
-	});
-var _user$project$Main$model = A2(_user$project$Main$Model, '', false);
-var _user$project$Main$Change = function (a) {
-	return {ctor: 'Change', _0: a};
-};
+var _user$project$Main$LoadGif = {ctor: 'LoadGif'};
 var _user$project$Main$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
@@ -30,35 +63,34 @@ var _user$project$Main$view = function (model) {
 		_elm_lang$core$Native_List.fromArray(
 			[
 				A2(
-				_elm_lang$html$Html$input,
+				_elm_lang$html$Html$h2,
+				_elm_lang$core$Native_List.fromArray(
+					[]),
 				_elm_lang$core$Native_List.fromArray(
 					[
-						_elm_lang$html$Html_Attributes$placeholder('Text to reverse'),
-						_elm_lang$html$Html_Events$onInput(_user$project$Main$Change)
+						_elm_lang$html$Html$text(model.topic)
+					])),
+				A2(
+				_elm_lang$html$Html$img,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Attributes$src(model.url)
 					]),
 				_elm_lang$core$Native_List.fromArray(
 					[])),
 				A2(
-				_elm_lang$html$Html$div,
-				_elm_lang$core$Native_List.fromArray(
-					[]),
+				_elm_lang$html$Html$button,
 				_elm_lang$core$Native_List.fromArray(
 					[
-						_elm_lang$html$Html$text(
-						_elm_lang$core$String$reverse(model.content))
-					])),
-				A2(
-				_elm_lang$html$Html$div,
-				_elm_lang$core$Native_List.fromArray(
-					[]),
+						_elm_lang$html$Html_Events$onClick(_user$project$Main$LoadGif)
+					]),
 				_elm_lang$core$Native_List.fromArray(
 					[
-						_elm_lang$html$Html$text(
-						_elm_lang$core$Native_Utils.eq(model.content, '') ? '' : (model.isPalindrome ? 'It\'s a palindome!! :)' : 'Not a palindrome. :('))
+						_elm_lang$html$Html$text('Load More!')
 					]))
 			]));
 };
 var _user$project$Main$main = {
-	main: _elm_lang$html$Html_App$beginnerProgram(
-		{model: _user$project$Main$model, update: _user$project$Main$update, view: _user$project$Main$view})
+	main: _elm_lang$html$Html_App$program(
+		{init: _user$project$Main$init, update: _user$project$Main$update, view: _user$project$Main$view, subscriptions: _user$project$Main$subscriptions})
 };
