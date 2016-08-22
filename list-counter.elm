@@ -43,11 +43,14 @@ update message model =
       { model | counters = List.map (updateCounters id message) model.counters }
 
     Delete id ->
-      { model | counters = List.filter (deleteCounter id) model.counters }
+      { model | counters = removeCounter id model.counters }
 
-deleteCounter: Int -> CounterModel -> Bool
-deleteCounter id counter =
-  counter.id /= id
+removeCounter: Int -> List CounterModel -> List CounterModel
+removeCounter id counters =
+  let
+    filterCounter id counter = counter.id /= id
+  in
+    List.filter (filterCounter id) counters
 
 updateCounters: Int -> Counter.Message -> CounterModel -> CounterModel
 updateCounters id message counter =

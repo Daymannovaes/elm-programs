@@ -6,9 +6,16 @@ var _user$project$Main$updateCounters = F3(
 				model: A2(_user$project$Counter$update, message, counter.model)
 			}) : counter;
 	});
-var _user$project$Main$deleteCounter = F2(
-	function (id, counter) {
-		return !_elm_lang$core$Native_Utils.eq(counter.id, id);
+var _user$project$Main$removeCounter = F2(
+	function (id, counters) {
+		var filterCounter = F2(
+			function (id, counter) {
+				return !_elm_lang$core$Native_Utils.eq(counter.id, id);
+			});
+		return A2(
+			_elm_lang$core$List$filter,
+			filterCounter(id),
+			counters);
 	});
 var _user$project$Main$Model = F2(
 	function (a, b) {
@@ -62,10 +69,7 @@ var _user$project$Main$update = F2(
 				return _elm_lang$core$Native_Utils.update(
 					model,
 					{
-						counters: A2(
-							_elm_lang$core$List$filter,
-							_user$project$Main$deleteCounter(_p0._0),
-							model.counters)
+						counters: A2(_user$project$Main$removeCounter, _p0._0, model.counters)
 					});
 		}
 	});
