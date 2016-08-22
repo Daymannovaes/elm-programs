@@ -1,35 +1,107 @@
+var _user$project$Main$updateCounters = F3(
+	function (id, message, counter) {
+		return _elm_lang$core$Native_Utils.eq(counter.id, id) ? _elm_lang$core$Native_Utils.update(
+			counter,
+			{
+				model: A2(_user$project$Counter$update, message, counter.model)
+			}) : counter;
+	});
+var _user$project$Main$deleteCounter = F2(
+	function (id, counter) {
+		return !_elm_lang$core$Native_Utils.eq(counter.id, id);
+	});
 var _user$project$Main$Model = F2(
 	function (a, b) {
-		return {top: a, bottom: b};
+		return {counters: a, count: b};
 	});
-var _user$project$Main$model = A2(_user$project$Main$Model, 0, 0);
+var _user$project$Main$model = A2(
+	_user$project$Main$Model,
+	_elm_lang$core$Native_List.fromArray(
+		[]),
+	0);
+var _user$project$Main$CounterModel = F2(
+	function (a, b) {
+		return {model: a, id: b};
+	});
+var _user$project$Main$resetCounter = function (counter) {
+	return A2(_user$project$Main$CounterModel, 0, counter.id);
+};
 var _user$project$Main$update = F2(
 	function (message, model) {
 		var _p0 = message;
 		switch (_p0.ctor) {
-			case 'Top':
+			case 'Add':
 				return _elm_lang$core$Native_Utils.update(
 					model,
 					{
-						top: A2(_user$project$Counter$update, _p0._0, model.top)
+						counters: A2(
+							_elm_lang$core$Basics_ops['++'],
+							_elm_lang$core$Native_List.fromArray(
+								[
+									A2(_user$project$Main$CounterModel, 0, model.count)
+								]),
+							model.counters),
+						count: model.count + 1
 					});
-			case 'Bottom':
+			case 'Reset':
 				return _elm_lang$core$Native_Utils.update(
 					model,
 					{
-						bottom: A2(_user$project$Counter$update, _p0._0, model.bottom)
+						counters: A2(_elm_lang$core$List$map, _user$project$Main$resetCounter, model.counters)
+					});
+			case 'Proxy':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						counters: A2(
+							_elm_lang$core$List$map,
+							A2(_user$project$Main$updateCounters, _p0._0, _p0._1),
+							model.counters)
 					});
 			default:
-				return A2(_user$project$Main$Model, 0, 0);
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						counters: A2(
+							_elm_lang$core$List$filter,
+							_user$project$Main$deleteCounter(_p0._0),
+							model.counters)
+					});
 		}
 	});
-var _user$project$Main$Bottom = function (a) {
-	return {ctor: 'Bottom', _0: a};
-};
-var _user$project$Main$Top = function (a) {
-	return {ctor: 'Top', _0: a};
-};
 var _user$project$Main$Reset = {ctor: 'Reset'};
+var _user$project$Main$Proxy = F2(
+	function (a, b) {
+		return {ctor: 'Proxy', _0: a, _1: b};
+	});
+var _user$project$Main$Delete = function (a) {
+	return {ctor: 'Delete', _0: a};
+};
+var _user$project$Main$divCounter = function (counter) {
+	return A2(
+		_elm_lang$html$Html$div,
+		_elm_lang$core$Native_List.fromArray(
+			[]),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				A2(
+				_elm_lang$html$Html$button,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Events$onClick(
+						_user$project$Main$Delete(counter.id))
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text('Delete')
+					])),
+				A2(
+				_elm_lang$html$Html_App$map,
+				_user$project$Main$Proxy(counter.id),
+				_user$project$Counter$view(counter.model))
+			]));
+};
+var _user$project$Main$Add = {ctor: 'Add'};
 var _user$project$Main$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
@@ -38,13 +110,15 @@ var _user$project$Main$view = function (model) {
 		_elm_lang$core$Native_List.fromArray(
 			[
 				A2(
-				_elm_lang$html$Html_App$map,
-				_user$project$Main$Top,
-				_user$project$Counter$view(model.top)),
-				A2(
-				_elm_lang$html$Html_App$map,
-				_user$project$Main$Bottom,
-				_user$project$Counter$view(model.bottom)),
+				_elm_lang$html$Html$button,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Events$onClick(_user$project$Main$Add)
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text('Add')
+					])),
 				A2(
 				_elm_lang$html$Html$button,
 				_elm_lang$core$Native_List.fromArray(
@@ -54,7 +128,12 @@ var _user$project$Main$view = function (model) {
 				_elm_lang$core$Native_List.fromArray(
 					[
 						_elm_lang$html$Html$text('Reset All')
-					]))
+					])),
+				A2(
+				_elm_lang$html$Html$div,
+				_elm_lang$core$Native_List.fromArray(
+					[]),
+				A2(_elm_lang$core$List$map, _user$project$Main$divCounter, model.counters))
 			]));
 };
 var _user$project$Main$main = {

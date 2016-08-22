@@ -10,8 +10,10 @@ main =
 
 -- MODEL
 
-type alias Model =
-    { top: Int, bottom: Int }
+type alias Model = {
+  top: Int,
+  bottom: Int
+}
 
 model: Model
 model = Model 0 0
