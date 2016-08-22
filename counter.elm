@@ -1,6 +1,6 @@
 module Counter exposing (Model, Message, model, update, view)
 
-import Html exposing (Html, button, div, text, input, span)
+import Html exposing (..)
 import Html.App as App
 import Html.Events exposing (onClick, onInput)
 import Html.Attributes exposing (..)
@@ -32,8 +32,16 @@ update message model =
 view : Model -> Html Message
 view model =
     div [] [
-        button [onClick Decrement] [text "-"],
+        button [buttonStyle, onClick Decrement] [text "-"],
         span [] [text (toString model)],
-        button [onClick Increment] [text "+"],
-        button [onClick Reset] [text "Reset"]
+        button [buttonStyle, onClick Increment] [text "+"],
+        button [buttonStyle, onClick Reset] [text "Reset"]
+    ]
+
+buttonStyle =
+    style [
+        ("font-size", "12pt"),
+        ("color", "#222"),
+        ("padding", "6px 12px"),
+        ("margin", "6px")
     ]

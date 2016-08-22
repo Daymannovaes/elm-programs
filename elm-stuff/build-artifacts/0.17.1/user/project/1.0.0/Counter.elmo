@@ -1,3 +1,11 @@
+var _user$project$Counter$buttonStyle = _elm_lang$html$Html_Attributes$style(
+	_elm_lang$core$Native_List.fromArray(
+		[
+			{ctor: '_Tuple2', _0: 'font-size', _1: '12pt'},
+			{ctor: '_Tuple2', _0: 'color', _1: '#222'},
+			{ctor: '_Tuple2', _0: 'padding', _1: '6px 12px'},
+			{ctor: '_Tuple2', _0: 'margin', _1: '6px'}
+		]));
 var _user$project$Counter$update = F2(
 	function (message, model) {
 		var _p0 = message;
@@ -25,6 +33,7 @@ var _user$project$Counter$view = function (model) {
 				_elm_lang$html$Html$button,
 				_elm_lang$core$Native_List.fromArray(
 					[
+						_user$project$Counter$buttonStyle,
 						_elm_lang$html$Html_Events$onClick(_user$project$Counter$Decrement)
 					]),
 				_elm_lang$core$Native_List.fromArray(
@@ -44,6 +53,7 @@ var _user$project$Counter$view = function (model) {
 				_elm_lang$html$Html$button,
 				_elm_lang$core$Native_List.fromArray(
 					[
+						_user$project$Counter$buttonStyle,
 						_elm_lang$html$Html_Events$onClick(_user$project$Counter$Increment)
 					]),
 				_elm_lang$core$Native_List.fromArray(
@@ -54,6 +64,7 @@ var _user$project$Counter$view = function (model) {
 				_elm_lang$html$Html$button,
 				_elm_lang$core$Native_List.fromArray(
 					[
+						_user$project$Counter$buttonStyle,
 						_elm_lang$html$Html_Events$onClick(_user$project$Counter$Reset)
 					]),
 				_elm_lang$core$Native_List.fromArray(
