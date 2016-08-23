@@ -47,10 +47,7 @@ update message model =
 
 removeCounter: Int -> List CounterModel -> List CounterModel
 removeCounter id counters =
-  let
-    filterCounter id counter = counter.id /= id
-  in
-    List.filter (filterCounter id) counters
+  List.filter (\counter -> counter.id /= id) counters
 
 updateCounters: Int -> Counter.Message -> CounterModel -> CounterModel
 updateCounters id message counter =

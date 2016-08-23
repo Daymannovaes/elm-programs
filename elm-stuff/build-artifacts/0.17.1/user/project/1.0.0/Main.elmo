@@ -8,13 +8,11 @@ var _user$project$Main$updateCounters = F3(
 	});
 var _user$project$Main$removeCounter = F2(
 	function (id, counters) {
-		var filterCounter = F2(
-			function (id, counter) {
-				return !_elm_lang$core$Native_Utils.eq(counter.id, id);
-			});
 		return A2(
 			_elm_lang$core$List$filter,
-			filterCounter(id),
+			function (counter) {
+				return !_elm_lang$core$Native_Utils.eq(counter.id, id);
+			},
 			counters);
 	});
 var _user$project$Main$Model = F2(
