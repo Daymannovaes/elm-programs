@@ -19,12 +19,13 @@ model = Model 0 Empty
 
 -- UPDATE
 
-type Message = Add | SetNumber String
+type Message = Reset | Add | SetNumber String
 
 update message model =
   case message of
     Add -> { model | tree = insert model.number model.tree }
     SetNumber number -> insertNumber number model
+    Reset -> Model 0 Empty
 
 insertNumber number model =
   case String.toInt number of
@@ -50,9 +51,13 @@ insert n tree =
 
 -- VIEW
 view model =
-  div [] [
-    input [onInput SetNumber] [],
-    button [onClick Add] [text "Add Number"],
+  section [] [
+    h2 [] [text "Binary Tree"],
+    div [] [
+      input [placeholder "type the number", onInput SetNumber] [],
+      button [class "btn", onClick Add] [text "Add Number"],
+      button [class "btn", onClick Reset] [text "Clear"]
+    ],
     printTree model.tree
   ]
 
